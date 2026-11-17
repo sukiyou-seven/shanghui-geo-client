@@ -1,3 +1,4 @@
+# Windows-only build; publishes a GitHub Release after a successful build.
 name: Windows build
 
 on:
