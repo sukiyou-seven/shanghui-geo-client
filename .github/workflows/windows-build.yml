@@ -1,0 +1,74 @@
+name: Windows build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "windows/**"
+      - "global.json"
+      - ".github/workflows/windows-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Show .NET SDK
+        run: dotnet --version
+
+      - name: Restore
+        run: dotnet restore windows/GeoAdminWinUI/GeoAdminWinUI.csproj
+
+      - name: Build
+        run: dotnet build windows/GeoAdminWinUI/GeoAdminWinUI.csproj -c Release --no-restore -p:Platform=x64
+
+      - name: Publish self-contained win-x64
+        run: dotnet publish windows/GeoAdminWinUI/GeoAdminWinUI.csproj -c Release -r win-x64 --self-contained true -p:Platform=x64 -p:WindowsPackageType=None -o publish/win-x64
+
+      - name: Package artifact
+        shell: pwsh
+        run: Compress-Archive -Path publish/win-x64/* -DestinationPath publish/GeoAdminWinUI-win-x64.zip
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GeoAdminWinUI-win-x64
+          path: publish/GeoAdminWinUI-win-x64.zip
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: win-v1.0.${{ github.run_number }}
+          name: "座天使·文渊 Windows v1.0.${{ github.run_number }}"
+          body: |
+            Windows 管理端（WinUI3）自动构建。
+
+            - 版本：v1.0.${{ github.run_number }}
+            - 提交：`${{ github.sha }}`
+            - 解压后运行 `GeoAdminWinUI.exe`
+            - 首次启动使用服务端登录密码 + TOTP 动态验证码
+            - API 接入在 Windows 版为只读
+            - macOS 版本不在此工作流构建
+
+            Windows 10 1809 及以上。
+          files: publish/GeoAdminWinUI-win-x64.zip
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="GeoAdminWinUI.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel Margin="28" Spacing="18">
+            <StackPanel Spacing="4">
+                <TextBlock Text="设置" FontSize="30" FontWeight="SemiBold" />
+                <TextBlock Text="服务端连接与维护"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+
+            <InfoBar x:Name="MessageBar" Severity="Success" IsOpen="False" IsClosable="True" />
+
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1" CornerRadius="10" Padding="16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="服务端连接" FontSize="16" FontWeight="SemiBold" />
+                    <TextBox x:Name="ServerBox" Header="服务端地址"
+                             PlaceholderText="http://127.0.0.1:5230" />
+                    <TextBlock x:Name="SessionText" Text="已通过密码 + TOTP 登录"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="保存" Click="Save_Click" Style="{StaticResource AccentButtonStyle}" />
+                        <Button Content="测试连接" Click="Test_Click" />
+                        <Button Content="退出登录" Click="Logout_Click" />
+                    </StackPanel>
+                    <TextBlock Text="登录密码和 TOTP 密钥只保存在服务端；Windows 端不保存管理令牌，会话令牌仅存在内存中。修改服务端地址后需要重新登录。"
+                               FontSize="11" Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1" CornerRadius="10" Padding="16">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="维护" FontSize="16" FontWeight="SemiBold" />
+                    <TextBlock Text="清理 Redis 中的 API 定义与响应缓存，不影响 MySQL 数据。"
+                               FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                    <Button Content="清理缓存" Click="ClearCache_Click" />
+                </StackPanel>
+            </Border>
+
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1" CornerRadius="10" Padding="16">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="关于" FontSize="16" FontWeight="SemiBold" />
+                    <TextBlock Text="座天使·文渊 · Windows 管理端" />
+                    <TextBlock Text="Windows 版仅供查看 API 接入配置；修改接入、发布媒体、任务池设置与日志查询均可使用。"
+                               FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

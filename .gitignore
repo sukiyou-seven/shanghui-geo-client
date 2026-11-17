@@ -1,0 +1,22 @@
+# 本仓库只提交 Windows 端；macOS 源码仅保留在本地，不进入公开仓库
+.DS_Store
+
+# macOS 客户端（本地保留，不提交）
+Package.swift
+Sources/
+Resources/
+scripts/
+.build/
+.swiftpm/
+dist/
+*.xcuserstate
+
+# Windows / WinUI
+windows/**/bin/
+windows/**/obj/
+windows/.vs/
+windows/**/*.user
+windows/publish/
+
+# 本地配置（令牌等敏感信息不进入仓库）
+**/appsettings.Local.json
