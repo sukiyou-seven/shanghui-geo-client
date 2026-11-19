@@ -31,10 +31,10 @@ jobs:
         run: dotnet --version
 
       - name: Restore
-        run: dotnet restore windows/GeoAdminWinUI/GeoAdminWinUI.csproj
+        run: dotnet restore windows/GeoAdminWinUI.sln
 
       - name: Build
-        run: dotnet build windows/GeoAdminWinUI/GeoAdminWinUI.csproj -c Release --no-restore -p:Platform=x64
+        run: dotnet build windows/GeoAdminWinUI.sln -c Release --no-restore -p:Platform=x64
 
       - name: Publish self-contained win-x64
         run: dotnet publish windows/GeoAdminWinUI/GeoAdminWinUI.csproj -c Release -r win-x64 --self-contained true -p:Platform=x64 -p:WindowsPackageType=None -o publish/win-x64

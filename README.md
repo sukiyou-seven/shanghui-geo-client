@@ -19,9 +19,17 @@ macOS 客户端源码不在此仓库中。
 
 要求 Windows 10 1809+、.NET SDK 8、Windows App SDK（随项目还原）。
 
+用 Visual Studio 打开解决方案：
+
+```
+windows/GeoAdminWinUI.sln
+```
+
+解决方案只配置了 `x64`。也可以用命令行：
+
 ```powershell
-dotnet restore windows/GeoAdminWinUI/GeoAdminWinUI.csproj
-dotnet build windows/GeoAdminWinUI/GeoAdminWinUI.csproj -c Release -p:Platform=x64
+dotnet restore windows/GeoAdminWinUI.sln
+dotnet build windows/GeoAdminWinUI.sln -c Release -p:Platform=x64
 ```
 
 发布自包含版本：
